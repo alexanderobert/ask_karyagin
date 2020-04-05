@@ -6,7 +6,7 @@ from django.urls import reverse
 from django.utils import timezone
 from taggit.models import Tag
 from .forms import add_post
-from .models import Question, Answer
+from .models import Question, Answer, Profile
 
 def paginate(objects_list, request, obj_per_list = 5):
     paginator = Paginator(objects_list, obj_per_list)
@@ -22,11 +22,17 @@ def main(request, tag_slug=None):
         tag = get_object_or_404(Tag, slug=tag_slug)
         posts = posts.filter(tags__in=[tag])
         title = '#' + str(tag)
-    questions = paginate(posts, request, 3)
+    questions = paginate(posts, request, 4)
     answers = {}
     for question in Question.objects.all():
         answers[question.id] = Answer.objects.filter(question=question.id).count()
-    return render(request, 'blog/index.html', {'questions': questions, 'title': title, 'answers': answers})
+
+    users = User.objects.all()
+    profiles = Profile.objects.all()
+
+    return render(request, 'blog/index.html', {'questions': questions,
+                                               'title': title, 'answers': answers,
+                                               'users': users, 'profiles': profiles})
 
 def settings_done(request):
   user = User.objects.get(username = request.user)
@@ -46,7 +52,10 @@ def some_post(request, question_id):
         raise Http404("Статья не найдена!")
     commets = Answer.objects.get_queryset().filter(question = question_id).order_by('pub_date')
     commets = paginate(commets, request, 3)
-    return render(request, 'blog/single_post.html', {'post': post, 'comments': commets})
+    users = User.objects.all()
+    profiles = Profile.objects.all()
+    return render(request, 'blog/single_post.html', {'post': post, 'comments': commets,
+                                                     'users': users, 'profiles': profiles})
 
 
 def create_post(request):
@@ -81,6 +90,8 @@ def create_accaunt_add(request):
   user = User.objects.create_user(username=request.POST['login'], email=request.POST['email'],
                                   password=request.POST['password'], first_name=request.POST['nickname'])
   user.save()
+  profile = Profile.objects.create(user = user, img=request.POST['img'])
+  profile.save()
   return HttpResponseRedirect(reverse('login'))
 
 

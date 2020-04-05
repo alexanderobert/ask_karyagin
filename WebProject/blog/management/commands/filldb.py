@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from django.utils import timezone
 
-from blog.models import Question, Answer
+from blog.models import Question, Answer, Profile
 from random import choice
 from faker import Faker
 from taggit.models import Tag
@@ -19,7 +19,10 @@ class Command(BaseCommand):
 
     def fill_authors(self, cnt):
         for i in range(cnt):
-            User.objects.create(password=f.password(), username=f.name(), email=f.email())
+           user =  User.objects.create(password=f.password(), username=f.name(), email=f.email())
+           user.save()
+           profile = Profile.objects.create(user=user)
+           profile.save()
 
     def fill_questions(self, cnt):
         tags = ['awesome', 'wow', 'cool', 'worst', 'sometag', 'helpme', 'onemore']
