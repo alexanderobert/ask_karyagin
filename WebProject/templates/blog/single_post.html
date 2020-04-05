@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="col-sm">
+      <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"></rect><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
+      <p class="media-body pb-6 mb-1 small lh-125 border-bottom border-gray">
+        <strong class="d-block text-gray-dark">{{ post.author_id }}</strong>
+          <strong class="d-block text-gray-dark">{{ post.title }}</strong>
+
+          {{ post.text }}
+      </p>
+            <div class="pad-ver">
+             {% if user.is_authenticated %}
+           <button type="button" class="btn btn-outline-success">Like</button>
+                <button type="button" class="btn btn-outline-warning">Dislike</button>
+                {% endif %}
+                <span>tags:</span>
+                           {% for tag in post.tags.all %}
+                               <a href="{% url 'tag_page' tag %}"><span>{{tag}}</span></a>
+                    {% endfor %}
+            </div>
+    {% if user.is_authenticated %}
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+           <div class="pad-ver">
+               <form action="{% url 'leave_answer' post.id %}" method="post">
+                    {% csrf_token %}
+                   <div id="div_id_text" class="d-block text-capitalize">
+                    <label for="id_text" class=" requiredField">Comment </label>
+                    <textarea name="text" cols="90" rows="5" class="textarea form-check" required="" id="id_text">
+                    </textarea>
+                </div>
+        <button type="submit" class="btn btn-outline-info">Comment</button>
+           </form>
+           </div>
+    </div>
+    {% endif %}
+
+
+    <div class="my-3 p-3 bg-white rounded shadow-sm">
+    <h6 class="border-bottom border-gray pb-2 mb-0">All comments</h6>
+
+        {% for comment in comments %}
+        <div class="media text-muted pt-3">
+      <svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: 32x32"><title>Placeholder</title><rect width="100%" height="100%" fill="#007bff"></rect><text x="50%" y="50%" fill="#007bff" dy=".3em">32x32</text></svg>
+      <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+        <strong class="d-block text-gray-dark">{{ comment.author_id}}</strong>
+        {{ comment.text }}
+             {% if user.is_authenticated %}
+          <div class="pad-ver">
+           <button type="button" class="btn btn-outline-success">Like</button>
+                <button type="button" class="btn btn-outline-warning">Dislike</button>
+            </div>
+        {% endif %}
+    </div>
+        {% endfor %}
+     <div class="pagination">
+    <span class="step-links">
+        {% if comments.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ comments.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ comments.number }} of {{ comments.paginator.num_pages }}.
+        </span>
+
+        {% if comments.has_next %}
+            <a href="?page={{ comments.next_page_number }}">next</a>
+            <a href="?page={{ comments.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
+
+  </div>
+</div>
+
+{% endblock%}

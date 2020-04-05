@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+    <meta charset="UTF-8">
+    <title>Title</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v3.8.6">
+    <title>Blog Template · Bootstrap</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.4/examples/blog/">
+
+    <!-- Bootstrap core CSS -->
+<link href="{% static '/assets/css/bootstrap.min.css' %}" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<link href="{% static '/assets/css/font-awesome.min.css' %}" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <!-- Favicons -->
+<meta name="msapplication-config" content="/docs/4.4/assets/img/favicons/browserconfig.xml">
+<meta name="theme-color" content="#563d7c">
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      .container-fluid {
+        margin-top: 70px;
+      }
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+        p.custom_name {
+        color: #17a2b8;
+        white-space: nowrap; /* Запрещаем перенос строк */
+        overflow: hidden; /* Обрезаем все, что не помещается в область */
+        margin-top: 10px;
+        margin-bottom: 7px;
+        margin-left: 3px;
+        padding: 1px;
+        text-overflow: ellipsis; /* Добавляем многоточие */
+        max-width: 120px
+        }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display:700,900" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a  class="navbar-brand" href="{% url 'main_page' %}">Q&A</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'hot_page' %}">Hot <span class="sr-only"></span></a>
+        </li>
+      </ul>
+      <form class="form-inline mt-2 mt-md-0" style="margin-right: 100px;">
+        <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" style=" width: 726px">
+          <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+      </form>
+        {% if user.is_authenticated %}
+            <a href="{% url 'new_question_page' %}" class="btn btn-outline-info my-2 my-sm-0" type="submit">Make Question</a>
+          <a href="{% url 'settings' %}" class="btn btn-outline-info my-2 my-sm-0" type="submit">Settings</a>
+              <a href="{% url 'logout' %}" class="btn btn-outline-info my-2 my-sm-0" type="submit">Log Out</a>
+        {% else %}
+            <form class="form-inline mt-2 mt-md-1">
+            <a href="{% url 'singup' %}" class="btn btn-outline-info my-2 my-sm-0" type="submit">singup</a>
+          <a href="{% url 'login' %}" class="btn btn-outline-info my-2 my-sm-0" type="submit">singin</a>
+            </form>>
+        {% endif %}
+          <p class="nav-link custom_name"  >{{ user.username }}</p>
+
+    </div>
+  </nav>
+
+<div class="container-fluid">
+  <div class="row">
+
+
+{% block content %}
+{% endblock %}
+
+      <aside class="col-md-4 blog-sidebar">
+        <div class="p-4">
+          <ul class="list-group mb-3">
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+              <div>
+                <h6 class="my-0">Product name</h6>
+                <small class="text-muted">Brief description</small>
+              </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+              <div>
+                <h6 class="my-0">Second product</h6>
+                <small class="text-muted">Brief description</small>
+              </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+              <div>
+                <h6 class="my-0">Third item</h6>
+                <small class="text-muted">Brief description</small>
+              </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+              <div>
+                <h6 class="my-0">Third item</h6>
+                <small class="text-muted">Brief description</small>
+              </div>
+            </li>
+            <li class="list-group-item d-flex justify-content-between lh-condensed">
+              <div>
+                <h6 class="my-0">Third item</h6>
+                <small class="text-muted">Brief description</small>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </aside>
+
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<div class="col-sm">
+   {% comment %} <form class="needs-validation was-validated" novalidate="">
+   {% endcomment %}     <h6 class="border-bottom border-gray pb-2 mb-0"> Settings</h6>
+        <form action="{% url 'settings_done' %}" method="POST">
+        {% csrf_token %}
+         <div class="my-3 p-3 bg-white rounded shadow-sm">
+           <div class="pad-ver">
+
+                <div class="mb-3">
+              <label for="login">Login <span class="text-muted"></span></label>
+              <input type="text" class="form-control" id="login" value="{{ user.username }}"  required="" name="login">
+              <div class="invalid-feedback">
+                Your login is required.
+              </div>
+            </div>
+
+              <div class="mb-3">
+              <label for="email">Email <span class="text-muted"></span></label>
+              <input type="email" class="form-control" id="email" value="{{ user.email }}" name="email">
+              <div class="invalid-feedback">
+                Please enter a valid email address.
+              </div>
+            </div>
+
+              <div class="mb-3">
+              <label for="nickname">NickName <span class="text-muted"></span></label>
+              <input type="text" class="form-control" id="nickname" value="{{ user.first_name }}" required="" name="nickname">
+              <div class="invalid-feedback">
+                Your nickname is required.
+              </div>
+            </div>
+
+            <div>
+              <label for="nickname">Choice image <span class="text-muted"></span></label>
+             <input type="file" name="img" accept="image/*" class="clearablefileinput form-control" id="id_img">
+            </div>
+
+        <div><br>
+     <a class="btn btn-primary" href="{% url 'password_change'%}">Change password</a>
+        </div>
+               <div><br>
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Accept changes</button>
+           </div>
+           </div>
+         </div>
+    </form>
+    </form>
+</div>
+{% endblock %}

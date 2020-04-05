@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block content %}
+
+     <div class="col-md-5 order-md-1">
+    <form class="needs-validation was-validated" novalidate="">
+
+            <div class="mb-3">
+              <label for="login">Login</label>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <span class="input-group-text">@</span>
+                </div>
+                <input type="text" class="form-control" id="login" placeholder="UrLogin" required="">
+                <div class="invalid-feedback" style="width: 100%;">
+                  Incorrect login.
+                </div>
+              </div>
+            </div>
+
+                    <div class="mb-3">
+              <label for="password">Password</label>
+              <input type="password" class="form-control" id="password" required="">
+              <div class="invalid-feedback">
+                Incorrect password.
+              </div>
+            </div>
+              <hr class="mb-4">
+    </form>
+     </div>
+{% endblock %}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% extends 'blog/base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <div class="col-md">
+        <h2> Ask some Question</h2>
+
+        <div class="my-3 p-3 bg-white rounded shadow-sm">
+
+            <div class="form-section">
+                <form action="{% url 'ask_question' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="row">
+
+                        <div class="col-10 label-inputs">
+                            {{ form.as_p }}
+                        <button type="submit" class="btn btn-outline-info">Post it</button>
+                        </div>
+                    </div>
+
+                    </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
