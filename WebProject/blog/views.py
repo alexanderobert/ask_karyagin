@@ -16,7 +16,7 @@ def paginate(objects_list, request, obj_per_list = 5):
 
 
 def main(request, tag_slug=None):
-    posts = Question.objects.get_queryset().order_by('pub_date')
+    posts = Question.objects.get_queryset().order_by('-pub_date')
     title = 'Recent updates'
     if tag_slug:
         tag = get_object_or_404(Tag, slug=tag_slug)
