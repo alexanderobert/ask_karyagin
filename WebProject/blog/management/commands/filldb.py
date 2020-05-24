@@ -19,9 +19,7 @@ class Command(BaseCommand):
 
     def fill_authors(self, cnt):
         for i in range(cnt):
-           user =  Profile.objects.create(password=f.password(), username=f.name(), email=f.email())
-           user.save()
-           profile = Profile.objects.create(user=user)
+           profile =  Profile.objects.create(password=f.password(), username=f.name(), email=f.email())
            profile.save()
 
     def fill_questions(self, cnt):

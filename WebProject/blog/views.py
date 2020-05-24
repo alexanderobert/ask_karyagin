@@ -79,7 +79,7 @@ class AccauntSetting(View):
                 user = Profile.objects.get(username=request.user)
                 user.email = form.data.get("email")
                 user.first_name = form.data.get("first_name")
-                user.img = form.files.get("img")
+                user.img = form.files.get("img", default= user.img)
                 user.save()
                 return HttpResponseRedirect(reverse('main_page'))
             return HttpResponseRedirect(reverse('settings'))

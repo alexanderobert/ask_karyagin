@@ -33,7 +33,6 @@ class user_registration(forms.ModelForm):
       'email': forms.EmailInput(attrs={'class': 'form-control', 'required': True}),
       'first_name': forms.TextInput(attrs={'class': 'form-control', 'maxlength': '50',}),
       'password': forms.PasswordInput(),
-      'img': forms.FileInput(attrs={'upload_to': 'user_images', 'accept': 'image/*', 'required': False,})
     }
 
 class user_setting(forms.ModelForm):
@@ -43,5 +42,4 @@ class user_setting(forms.ModelForm):
     widgets = {
       'email': forms.EmailInput(attrs={'class': 'form-control', 'required': False}),
       'first_name': forms.TextInput(attrs={'class': 'form-control', }),
-      'img': forms.FileInput(attrs={'upload_to': 'user_images', 'accept': 'image/*'})
     }
