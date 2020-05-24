@@ -9,50 +9,22 @@
     <form class="needs-validation was-validated" novalidate="">
 {% endcomment %}
 
+ <div class="form-section">
+                <form action="{% url 'singup' %}" method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class ="form-group">
+                        {{ field.label }}
+                        {{ field }}
+                        </div>
+                    {% endfor %}
+                    <div class="row">
+                        <div class="col-10 label-inputs">
+                         <button type="submit" class="btn btn-lg btn-block btn-outline-info">Register</button>
+                        </div>
+                    </div>
 
-        <form action="{% url 'create_accaunt_add'%}" method="POST">
-                  {% csrf_token %}
-
-        <div class="mb-3">
-              <label for="login">Login <span class="text-muted"></span></label>
-              <input type="text" name="login" class="form-control" id="login" placeholder="l0G1N" required="">
-              <div class="invalid-feedback">
-                Your login is required.
-              </div>
+                    </form>
             </div>
-
-              <div class="mb-3">
-              <label for="email">Email <span class="text-muted"></span></label>
-              <input type="email" name="email" class="form-control" id="email" placeholder="you@example.com" required="">
-              <div class="invalid-feedback">
-                Please enter a valid email address.
-              </div>
-            </div>
-
-              <div class="mb-3">
-              <label for="nickname">NickName <span class="text-muted"></span></label>
-              <input type="text" name="nickname" class="form-control" id="nickname" placeholder="sOmEnIcKnAmE" required="">
-              <div class="invalid-feedback">
-                Your nickname is required.
-              </div>
-            </div>
-
-            <div class="mb-3">
-              <label for="password">Password</label>
-              <input type="password" name="password" class="form-control" id="password" required="">
-              <div class="invalid-feedback">
-                Incorrect password.
-              </div>
-            </div>
-
-                    <div>
-              <label for="nickname">Set profile image <span class="text-muted"></span></label>
-             <input type="file" name="img" value="default.jpg" accept="image/*" class="clearablefileinput form-control" id="id_img">
-            </div>
-        <br>
-
-               <button type="submit" class="btn btn-lg btn-block btn-outline-info">Register</button>
-        </form>
-          </form>
         </div>
 {% endblock %}

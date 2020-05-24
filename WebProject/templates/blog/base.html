@@ -33,6 +33,10 @@
         user-select: none;
       }
 
+      .btn-space {
+        margin-right: 5px;
+        margin-left: 5px;
+      }
       .quest-img {
          width: 75px;
         height: 75px;
@@ -60,7 +64,7 @@
         margin-left: 3px;
         padding: 1px;
         text-overflow: ellipsis; /* Добавляем многоточие */
-        max-width: 120px
+        max-width: 100px
         }
     </style>
     <!-- Custom styles for this template -->
@@ -83,13 +87,13 @@
           <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
       </form>
         {% if user.is_authenticated %}
-            <a href="{% url 'new_question_page' %}" class="btn btn-outline-info my-2 my-sm-0" type="submit">Make Question</a>
-          <a href="{% url 'settings' %}" class="btn btn-outline-info my-2 my-sm-0" type="submit">Settings</a>
-              <a href="{% url 'logout' %}" class="btn btn-outline-info my-2 my-sm-0" type="submit">Log Out</a>
+            <a href="{% url 'new_question_page' %}" class="btn btn-space btn-outline-info my-2 my-sm-0" type="submit">Make Question</a>
+            <a href="{% url 'settings' %}" class="btn btn-outline-info btn-space my-2 my-sm-0" type="submit">Settings</a>
+            <a href="{% url 'logout' %}" class="btn btn-outline-info btn-space my-2 my-sm-0" type="submit">Log Out</a>
         {% else %}
             <form class="form-inline mt-2 mt-md-1">
-            <a href="{% url 'singup' %}" class="btn btn-outline-info my-2 my-sm-0" type="submit">singup</a>
-          <a href="{% url 'login' %}" class="btn btn-outline-info my-2 my-sm-0" type="submit">singin</a>
+            <a href="{% url 'singup' %}" class="btn btn-outline-info btn-space my-2 my-sm-0" type="submit">singup</a>
+          <a href="{% url 'login' %}" class="btn btn-outline-info btn-space my-2 my-sm-0" type="submit">singin</a>
             </form>>
         {% endif %}
           <p class="nav-link custom_name"  >{{ user.username }}</p>

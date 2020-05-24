@@ -1,6 +1,6 @@
 import datetime
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.contenttypes.models import ContentType
@@ -10,6 +10,10 @@ from django.db.models import Sum
 from django.utils import timezone
 from PIL import Image
 from taggit.models import Tag
+
+
+class Profile(AbstractUser):
+    img = models.ImageField(default='default.jpg', upload_to='user_images')
 
 
 class CommendManager(models.Manager):
@@ -37,7 +41,7 @@ class Commend(models.Model):
     )
 
     vote = models.SmallIntegerField(verbose_name= ("Голос"), choices=VOTES)
-    user = models.ForeignKey(User, verbose_name= ("Пользователь"), on_delete= models.CASCADE)
+    user = models.ForeignKey(Profile, verbose_name= ("Пользователь"), on_delete= models.CASCADE)
 
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
@@ -49,7 +53,7 @@ class Question(models.Model):
     tags = TaggableManager()
     title = models.CharField(max_length=200)
     text = models.TextField()
-    author_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    author_id = models.ForeignKey(Profile, on_delete=models.CASCADE)
     votes = GenericRelation(Commend, related_query_name='articles')
     pub_date = models.DateTimeField('дата публикации')
 
@@ -76,14 +80,11 @@ class Answer(models.Model):
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     text = models.TextField()
     votes = GenericRelation(Commend, related_query_name='articles')
-    author_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    author_id = models.ForeignKey(Profile, on_delete=models.CASCADE)
     pub_date = models.DateTimeField('дата публикации')
 
     def awsers_to_questions(self, question_id):
        return self.objects.get_queryset().filter(question=question_id).order_by('pub_date')
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    img = models.ImageField(default='default.jpg', upload_to='user_images')
 
 # Create your models here.

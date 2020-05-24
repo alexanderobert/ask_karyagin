@@ -19,7 +19,7 @@ class Command(BaseCommand):
 
     def fill_authors(self, cnt):
         for i in range(cnt):
-           user =  User.objects.create(password=f.password(), username=f.name(), email=f.email())
+           user =  Profile.objects.create(password=f.password(), username=f.name(), email=f.email())
            user.save()
            profile = Profile.objects.create(user=user)
            profile.save()
@@ -27,14 +27,14 @@ class Command(BaseCommand):
     def fill_questions(self, cnt):
         tags = ['awesome', 'wow', 'cool', 'worst', 'sometag', 'helpme', 'onemore']
         author_ids = list(
-            User.objects.values_list(
+            Profile.objects.values_list(
                 'id', flat=True
             )
         )
 
         for i in range(cnt):
             q = Question.objects.create(
-                author_id=User.objects.get(id=choice(author_ids)),
+                author_id=Profile.objects.get(id=choice(author_ids)),
                 title=f.sentence()[:128],
                 text=f.sentence()[:256],
                 pub_date=timezone.now()
@@ -45,7 +45,7 @@ class Command(BaseCommand):
 
     def fill_answers(self, cnt):
         author_ids = list(
-            User.objects.values_list(
+            Profile.objects.values_list(
                 'id', flat=True
             )
         )
@@ -56,7 +56,7 @@ class Command(BaseCommand):
         )
         for i in range(cnt):
             Answer.objects.create(
-                author_id=User.objects.get(id=choice(author_ids)),
+                author_id=Profile.objects.get(id=choice(author_ids)),
                 question=Question.objects.get(id=choice(questions_ids)),
                 text=f.sentence()[:256],
                 pub_date=timezone.now()

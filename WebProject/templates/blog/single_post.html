@@ -6,7 +6,7 @@
 
 <div class="col-sm">
 
-    <img alt="{{ users.username }}" height="300px" class="quest-img" src="{{post.author_id.profile.img.url}}">
+    <img alt="{{ profiles.username }}" height="300px" class="quest-img" src="{{post.author_id.img.url}}">
       <p class="media-body pb-6 mb-1 small lh-125 border-bottom border-gray">
         <strong class="d-block text-gray-dark">{{ post.author_id }}</strong>
           <strong class="d-block text-gray-dark">{{ post.title }}</strong>
@@ -14,7 +14,7 @@
           {{ post.text }}
       </p>
             <div class="pad-ver">
-             {% if user.is_authenticated %}
+             {% if profile.is_authenticated %}
            <button type="button" class="btn btn-outline-success">Like</button>
                 <button type="button" class="btn btn-outline-warning">Dislike</button>
                 {% endif %}
@@ -26,15 +26,20 @@
     {% if user.is_authenticated %}
     <div class="my-3 p-3 bg-white rounded shadow-sm">
            <div class="pad-ver">
-               <form action="{% url 'leave_answer' post.id %}" method="post">
+
+                <form action="{% url 'leave_answer' post.id%}" method="POST">
                     {% csrf_token %}
-                   <div id="div_id_text" class="d-block text-capitalize">
-                    <label for="id_text" class=" requiredField">Comment </label>
-                    <textarea name="text" cols="90" rows="5" class="textarea form-check" required="" id="id_text">
-                    </textarea>
-                </div>
-        <button type="submit" class="btn btn-outline-info">Comment</button>
-           </form>
+                    <div class="row">
+
+                        <div class="col-10 label-inputs">
+                            <div class="fieldWrapper">
+                                 {{ form.text.errors }}
+                                  <textarea name="text" cols="90" rows="5" required="" id="id_text"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-outline-info">Answer</button>
+                        </div>
+                    </div>
+                    </form>
            </div>
     </div>
     {% endif %}
@@ -45,15 +50,18 @@
 
         {% for comment in comments %}
         <div class="media text-muted pt-3">
-      <img alt="{{ users.username }}" height="300px" class="answ-img" src="{{comment.author_id.profile.img.url}}">
+      <img alt="{{ users.username }}" height="300px" class="answ-img" src="{{comment.author_id.img.url}}">
 
             <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
         <strong class="d-block text-gray-dark">{{ comment.author_id}}</strong>
         {{ comment.text }}
-             {% if user.is_authenticated %}
+             <p>
+                <input type="checkbox" name="option2" value="a2">Correct <Br>
+             </p>
+            {% if user.is_authenticated %}
           <div class="pad-ver">
-           <button type="button" class="btn btn-outline-success">Like</button>
-                <button type="button" class="btn btn-outline-warning">Dislike</button>
+           <button type="submit" class="btn btn-outline-success btn-space">Like</button>
+                <button type="submit" class="btn btn-outline-warning btn-space">Dislike</button>
             </div>
         {% endif %}
     </div>
