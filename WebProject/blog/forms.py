@@ -11,9 +11,7 @@ class add_post(forms.ModelForm):
     exclude = ['votes', 'pub_date', 'author_id']
 
   title = forms.CharField(label='Question title', widget=forms.TextInput(
-          attrs={'class': 'form-control', 'maxlength': '70',
-                 'oninvalid': "this.setCustomValidity('Помогите')"})
-                        )
+          attrs={'class': 'form-control', 'maxlength': '70'}))
   text = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'maxlength': '600'}),label='Question text')
   tags = TagField(label='Tags', widget=forms.TextInput(attrs={'class': 'form-control'}))
   required_css_class= "field"
@@ -21,8 +19,9 @@ class add_post(forms.ModelForm):
 class add_answer(forms.ModelForm):
   class Meta:
     model = Answer
-    exclude = ['votes', 'question', 'author_id', 'pub_date']
-  text = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control', 'maxlength': '300'}), label='Answer text')
+    fields = ['text']
+    widgets = {
+      'text': forms.Textarea(attrs={'class': 'form-control', 'maxlength': '300', 'required': True, }),}
 
 class user_registration(forms.ModelForm):
   class Meta:

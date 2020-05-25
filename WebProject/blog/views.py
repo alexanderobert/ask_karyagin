@@ -112,14 +112,12 @@ def leave_answer(request, question_id):
     if request.method == "POST":
         form = add_answer(request.POST)
         if form.is_valid():
-          #question = form.save(commit=False)
           answer = form.save(commit=False)
           answer.author_id = request.user
           answer.pub_date = timezone.now()
           answer.question = question
           answer.save()
           form.save_m2m()
-         # page_number = 0
           return HttpResponseRedirect(reverse('question_page', args = (question.id,)))
     else:
       form = add_answer()
@@ -146,11 +144,6 @@ def ask_question(request):
       form = add_post()
 
     return render(request, 'blog/index.html')
-
-
-# def answer(request, question_id, page_number):
-#     request
-
 
 #def leave_answer(request, question_id):
  #   form = add_answer()
