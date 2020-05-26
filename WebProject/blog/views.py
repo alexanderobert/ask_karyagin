@@ -7,7 +7,7 @@ from django.views import View
 from django.urls import reverse
 from django.utils import timezone
 from taggit.models import Tag
-from .forms import add_post, add_answer, user_registration, user_setting
+from .forms import *
 from .models import Question, Answer, Profile, Commend, ContentType
 
 
@@ -70,17 +70,14 @@ def main(request, tag_slug=None):
 class AccauntSetting(View):
         def get(self, request):
             curr_acc = Profile.objects.get(username=request.user)
-            form = user_setting(instance=curr_acc)
+            form = UserSetting(curr_acc, instance=curr_acc)
             return render(request, 'blog/user_settings.html', {'form': form})
 
         def post(self, request):
-            form = user_setting(request.POST, request.FILES)
+            profile = Profile.objects.get(username=request.user)
+            form = UserSetting(profile, request.POST, request.FILES)
             if form.is_valid():
-                user = Profile.objects.get(username=request.user)
-                user.email = form.data.get("email")
-                user.first_name = form.data.get("first_name")
-                user.img = form.files.get("img", default= user.img)
-                user.save()
+                user = form.save()
                 return HttpResponseRedirect(reverse('main_page'))
             return HttpResponseRedirect(reverse('settings'))
 #
@@ -100,7 +97,7 @@ def some_post(request, question_id):
         post = Question.objects.get(id=question_id)
     except:
         raise Http404("Статья не найдена!")
-    form = add_answer()
+    form = AddAnswer(request.user, post)
     commets = Answer.objects.get_queryset().filter(question = question_id).order_by('pub_date')
     commets = paginate(commets, request, 3)
     profiles = Profile.objects.all()
@@ -110,38 +107,29 @@ def some_post(request, question_id):
 def leave_answer(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     if request.method == "POST":
-        form = add_answer(request.POST)
+        form = AddAnswer(request.user, question, data=request.POST)
         if form.is_valid():
-          answer = form.save(commit=False)
-          answer.author_id = request.user
-          answer.pub_date = timezone.now()
-          answer.question = question
-          answer.save()
-          form.save_m2m()
+          answer = form.save()
           return HttpResponseRedirect(reverse('question_page', args = (question.id,)))
     else:
-      form = add_answer()
+      form = AddAnswer(request.user, question, data=request.POST)
 
     return render(request, 'blog/index.html')
 
 
 def create_post(request):
-    form = add_post()
+    form = AddPost(request.user)
     return render(request, 'blog/post_create.html', {'form': form})
 
 def ask_question(request):
     if request.method == "POST":
-        form = add_post(request.POST)
+        form = AddPost(request.user, data=request.POST)
         if form.is_valid():
-          question = form.save(commit=False)
-          question.author_id = request.user
-          question.pub_date = timezone.now()
-          question.save()
-          form.save_m2m()
+          question = form.save()
           return HttpResponseRedirect(reverse('question_page', args = (question.id,)))
 
     else:
-      form = add_post()
+      form = AddPost(request.user, data=request.POST)
 
     return render(request, 'blog/index.html')
 
@@ -158,17 +146,13 @@ def ask_question(request):
 
 class  Registration(View):
         def get(self, request):
-            form = user_registration()
+            form = UserRegistration()
             return render(request, 'blog/singup.html', {'form': form})
 
         def post(self, request):
-            form = user_registration(request.POST, request.FILES)
+            form = UserRegistration(request.POST, request.FILES)
             if form.is_valid():
-                acc = form.save(commit=False)
-                acc.is_active = True
-                acc.set_password(acc.password)
-                acc.save()
-                form.save()
+                acc = form.save()
                 return HttpResponseRedirect(reverse('login'))
             return HttpResponseRedirect(reverse('singup'))
 

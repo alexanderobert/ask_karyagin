@@ -15,7 +15,12 @@
                     <div class="row">
 
                         <div class="col-10 label-inputs">
-                            {{ form.as_p }}
+                              {% for field in form %}
+                        <div class ="form-group">
+                        {{ field.label }}
+                        {{ field }}
+                        </div>
+                    {% endfor %}
                         <button type="submit" class="btn btn-outline-info">Post it</button>
                         </div>
                     </div>
